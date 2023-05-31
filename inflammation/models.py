@@ -15,7 +15,7 @@ def load_csv(filename):
 
     :param filename: Filename of CSV to load
     """
-    return np.loadtxt(fname=filename, delimiter=',')
+    return np.loadtxt(fname=filename, delimiter=",")
 
 
 def daily_mean(data):
@@ -30,12 +30,11 @@ def daily_mean(data):
 
 def daily_max(data):
     """Calculate the daily max of a 2D inflammation data array.
-    
+
     :param data: a 2D data array with inflammation data (each row
     contains measurements for a single patien across all days).
     :returns: an array of maximum values of measurements for each day.
     """
-
 
     return np.max(data, axis=0)
 
@@ -58,18 +57,17 @@ def patient_normalise(data):
     """
 
     if np.any(data < 0):
-        raise ValueError('Inflammation values should not be negative')
-    
+        raise ValueError("Inflammation values should not be negative")
+
     if not isinstance(data, np.ndarray):
-        raise TypeError('Inflammation data should be in a 2D array form')
-    
-    if len(data.shape)!=2:
-        raise ValueError('Inflammation array should be 2D')
-    
-    max = np.nanmax(data, axis=1)
-    with np.errstate(invalid='ignore', divide='ignore'):
-        normalised = data/max[:, np.newaxis]
+        raise TypeError("Inflammation data should be in a 2D array form")
+
+    if len(data.shape) != 2:
+        raise ValueError("Inflammation array should be 2D")
+
+    max_data = np.nanmax(data, axis=1)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        normalised = data / max_data[:, np.newaxis]
     normalised[np.isnan(normalised)] = 0
     normalised[normalised < 0] = 0
     return normalised
-    
