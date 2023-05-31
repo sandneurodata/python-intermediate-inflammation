@@ -62,6 +62,16 @@ def test_daily_min(test, expected):
             ValueError,
         ),
         (
+            'Hello',
+            None,
+            TypeError,
+        ),
+        (
+            [[1, -2, 3]],
+            None,
+            ValueError,
+        ),
+        (
             [[1, 2, 3], [np.nan, 5, 6], [7, 8, 9]],
             [[0.33, 0.67, 1], [0, 0.83, 1], [0.78, 0.89, 1]],
             None,
@@ -90,6 +100,9 @@ def test_patient_normalise(test, expected, expect_raises):
     """Test normalisation works for arrays of one and positive integers.
     Assumption that test accuracy of two decimal places is sufficient."""
     from inflammation.models import patient_normalise
+
+    if isinstance(test, list):
+        test= np.array(test)
 
     if expect_raises is not None:
         with pytest.raises(expect_raises):
